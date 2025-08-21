@@ -10,12 +10,14 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    container: archlinux:latest
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install pacman tools
-        run: sudo apt-get update && sudo apt-get install -y pacman
+      - name: Update system and install pacman tools
+        run: |
+          pacman -Sy --noconfirm pacman
 
       - name: Build repo database
         run: |
