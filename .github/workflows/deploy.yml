@@ -15,9 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Update system and install pacman tools
+      - name: Update system and install tools
         run: |
-          pacman -Sy --noconfirm pacman
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm pacman git
 
       - name: Build repo database
         run: |
