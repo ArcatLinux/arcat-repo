@@ -1,0 +1,28 @@
+name: Build APKINDEX
+
+on:
+  push:
+    paths:
+      - 'x86_64/**'
+
+jobs:
+  build-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install apk-tools
+        run: sudo apt-get update && sudo apt-get install -y apk-tools
+
+      - name: Build APKINDEX
+        run: |
+          cd x86_64
+          apk index -o APKINDEX.tar.gz *.apk
+          cd ..
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./x86_64
