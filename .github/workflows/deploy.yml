@@ -7,11 +7,6 @@ on:
     paths:
       - 'packages/**'
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -30,10 +25,8 @@ jobs:
           mkdir -p packages
           repo-add packages/arcat-repo.db.tar.gz packages/*.pkg.tar.zst
 
-      - name: Upload artifact for Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./packages
-
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          publish_dir: ./packages
